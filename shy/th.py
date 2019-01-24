@@ -9,8 +9,8 @@ import os
 
 def safe_save_net(net):
     if hasattr(net, 'module'):
-        return net.state_dict
-    return net.module.state_dict
+        return net.state_dict()
+    return net.module.state_dict()
 
 
 def safe_load_net(net, state_dict):
