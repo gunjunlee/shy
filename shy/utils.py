@@ -109,7 +109,7 @@ def download_url(url, path, md5=None):
             urllib.request.urlretrieve(url, fpath, reporthook=gen_bar_updater(tqdm(unit='B', unit_scale=True)))
         except:
             if url[:5] == 'https':
-                url = url.replace('https:, http:')
+                url = url.replace('https:', 'http:')
                 print('Failed download. Trying https -> http instead')
                 print('Downloading '+url+' to '+fpath)
             urllib.request.urlretrieve(url, fpath, reporthook=gen_bar_updater(tqdm(unit='B', unit_scale=True)))
