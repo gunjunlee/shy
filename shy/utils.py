@@ -80,9 +80,7 @@ def download_url(url, path, md5=None):
     import errno
     from tqdm import tqdm
 
-    def gen_bar_updater():
-        pbar = tqdm(total=None)
-
+    def gen_bar_updater(pbar):
         def bar_update(count, block_size, total_size):
             if pbar.total is None and total_size:
                 pbar.total = total_size
@@ -109,15 +107,17 @@ def download_url(url, path, md5=None):
     else:
         try:
             print('Downloading '+url+' to '+fpath)
-            urllib.request.urlretrieve(url, fpath,
-                                       reporthook=gen_bar_updater())
+            with tqdm(total=None) as pbar:
+                urllib.request.urlretrieve(url, fpath,
+                                           reporthook=gen_bar_updater(pbar))
         except:
             if url[:5] == 'https':
                 url = url.replace('https:', 'http:')
                 print('Failed download. Trying https -> http instead')
                 print('Downloading '+url+' to '+fpath)
-            urllib.request.urlretrieve(url, fpath,
-                                       reporthook=gen_bar_updater())
+            with tqdm(total=None) as pbar:
+                urllib.request.urlretrieve(url, fpath,
+                                           reporthook=gen_bar_updater(pbar))
         print('Download completed: '+url+' to '+fpath)
         if not check_integrity(fpath, md5):
             print('not match md5: '+fpath)
