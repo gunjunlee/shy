@@ -46,7 +46,6 @@ def show_imgs(img, *args):
         for c in range(col):
             if r*col + c > total - 1:
                 axs[r, c].axis('off')
-                # import pdb; pdb.set_trace()
                 continue
             if r == 0 and c == 0:
                 axs[0, 0].imshow(img)
