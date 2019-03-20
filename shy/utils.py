@@ -70,7 +70,7 @@ def check_integrity(fpath, md5=None):
         for chunk in iter(lambda: f.read(1024 * 1024), b''):
             md5o.update(chunk)
     md5c = md5o.hexdigest()
-    if md5c != md5:
+    if md5c[:len(md5)] != md5:
         return False
     return True
 
@@ -119,3 +119,6 @@ def download_url(url, path, md5=None):
                 print('Downloading '+url+' to '+fpath)
             urllib.request.urlretrieve(url, fpath,
                                        reporthook=gen_bar_updater())
+        print('Download completed: '+url+' to '+fpath)
+        if not check_integrity(fpath, md5):
+            print('not match md5: '+fpath)

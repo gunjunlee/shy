@@ -4,9 +4,11 @@ import matplotlib.pyplot as plt
 import os
 import os.path as osp
 
-import shy
-
 CUR_DIR = osp.dirname(__file__)
+
+import imp
+imp.load_source('shy', osp.join(osp.dirname(CUR_DIR), 'shy/__init__.py'))
+import shy
 
 cache_path = osp.join(CUR_DIR, 'izone_chaewon.jpg')
 
@@ -23,6 +25,7 @@ shy.download_url('https://www.dropbox.com/s/jcfyl8zsrlekgh6/izone_chaewon.jpg?dl
 
 # check integrity
 assert shy.check_integrity(cache_path, '9abd027e11a62b3c7050c83c669e72b0'), 'check_integrity failed'
+assert shy.check_integrity(cache_path, '9abd027e11a6'), 'check_integrity failed'
 assert not shy.check_integrity(cache_path, '124'), 'check_integrity failed'
 
 
