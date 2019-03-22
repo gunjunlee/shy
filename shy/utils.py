@@ -54,6 +54,65 @@ def show_imgs(img, *args):
     plt.show()
 
 
+def draw_bbox(img, bbox, **kwarg):
+    '''draw bbox on copied img
+
+    Parameters
+    ----------
+    img : PIL.Image
+        image which you want to draw box on
+    bbox : iterable
+        [x_min, y_min, x_max, y_max]
+        normalized coordinate. [0, 1]
+
+    Returns
+    -------
+    c_img: PIL.Image
+        drawn copied image
+    '''
+
+    from PIL import ImageDraw
+
+    img = img.copy()
+    w, h = img.size
+
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([bbox[0]*w, bbox[1]*h, bbox[2]*w, bbox[3]*h], **kwarg)
+    del draw
+
+    return img
+
+
+def draw_bboxes(img, bboxes, **kwarg):
+    '''draw bboxes on copied img
+
+    Parameters
+    ----------
+    img : PIL.Image
+        image which you want to draw box on
+    bboxes : iterable
+        [[x_min, y_min, x_max, y_max], ...]
+        normalized coordinate. [0, 1]
+
+    Returns
+    -------
+    c_img: PIL.Image
+        drawn copied image
+    '''
+
+    from PIL import ImageDraw
+
+    img = img.copy()
+    w, h = img.size
+
+    draw = ImageDraw.Draw(img)
+    for bbox in bboxes:
+        draw.rectangle([bbox[0]*w, bbox[1]*h, bbox[2]*w, bbox[3]*h], **kwarg)
+    del draw
+
+    return img
+
+
 def check_integrity(fpath, md5=None):
     import hashlib
     import os
