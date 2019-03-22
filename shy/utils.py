@@ -92,13 +92,14 @@ def download_url(url, path, md5=None):
     fpath = os.path.expanduser(path)
     root = os.path.dirname(fpath)
 
-    try:
-        os.makedirs(root)
-    except OSError as e:
-        if e.errno == errno.EEXIST:
-            pass
-        else:
-            raise
+    if root != '':
+        try:
+            os.makedirs(root)
+        except OSError as e:
+            if e.errno == errno.EEXIST:
+                pass
+            else:
+                raise
 
     if os.path.isfile(fpath) and check_integrity(fpath, md5):
         print('File already exists: '+fpath)
