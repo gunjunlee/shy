@@ -50,5 +50,5 @@ finally:
     if osp.isfile(cache_path):
         os.remove(cache_path)
 
-# shy.err_hook()
-# a = 1/0
+shy.err_hook()
+a = 1/0
