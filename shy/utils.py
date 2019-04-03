@@ -181,3 +181,33 @@ def download_url(url, path, md5=None):
         print('Download completed: '+url+' to '+fpath)
         if not check_integrity(fpath, md5):
             print('not match md5: '+fpath)
+
+
+def loading(func, *args, **kwargs):
+    import time
+    import sys
+    import multiprocessing as mp
+
+    def animation(chk):
+        frame = ['.', '..', '...', '....']
+        idx = 0
+        while True:
+            sys.stdout.write(frame[idx])
+            sys.stdout.flush()
+            time.sleep(0.5)
+            sys.stdout.write('\b'*len(frame[idx]))
+            sys.stdout.write(' '*len(frame[idx]))
+            sys.stdout.write('\b'*len(frame[idx]))
+            idx += 1
+            if idx == len(frame):
+                idx = 0
+            if chk.value == 0:
+                break
+
+    chk = mp.Value('i', 1)
+    loading_ani_p = mp.Process(target=animation, args=(chk,))
+    loading_ani_p.start()
+    func(*args, **kwargs)
+    chk.value = 0
+    loading_ani_p.join()
+

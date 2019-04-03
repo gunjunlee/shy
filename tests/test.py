@@ -52,3 +52,9 @@ finally:
 
 shy.err_hook()
 a = 1/0
+
+def poo():
+    for i in range(int(2e+8)):
+        pass
+
+shy.loading(poo)
