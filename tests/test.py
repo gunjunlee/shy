@@ -50,11 +50,11 @@ finally:
     if osp.isfile(cache_path):
         os.remove(cache_path)
 
-shy.err_hook()
-a = 1/0
-
-def poo():
-    for i in range(int(2e+8)):
+def poo(num):
+    for i in range(num):
         pass
 
-shy.loading(poo)
+shy.loading(poo, args=(int(2e+8),))
+
+shy.err_hook()
+a = 1/0

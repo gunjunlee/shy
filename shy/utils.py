@@ -183,7 +183,7 @@ def download_url(url, path, md5=None):
             print('not match md5: '+fpath)
 
 
-def loading(func, *args, **kwargs):
+def loading(func, args=(), kwargs={}, verbose=True):
     import time
     import sys
     import multiprocessing as mp
@@ -206,8 +206,12 @@ def loading(func, *args, **kwargs):
 
     chk = mp.Value('i', 1)
     loading_ani_p = mp.Process(target=animation, args=(chk,))
+
+    if verbose:
+        print('loading', end='')
     loading_ani_p.start()
     func(*args, **kwargs)
     chk.value = 0
     loading_ani_p.join()
-
+    if verbose:
+        print(' completed!')
