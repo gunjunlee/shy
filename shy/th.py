@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-from torchvision import datasets
 
 import time
 import copy
