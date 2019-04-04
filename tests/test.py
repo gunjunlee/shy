@@ -50,11 +50,26 @@ finally:
     if osp.isfile(cache_path):
         os.remove(cache_path)
 
+
 def poo(num):
     for i in range(num):
         pass
+    return True
 
-shy.loading(poo, args=(int(2e+8),))
+assert shy.loading(poo, args=(int(2e+8),)), 'loading return value error'
+
+
+def poo(num):
+    for i in range(num):
+        pass
+    return
+
+shy.loading(poo, args=(int(2e+8),), desc='calc{bar} is done!')
+
+import torch
+x = torch.ones((2, 2, 2))
+assert (x == shy.Identity()(x)).all()
+assert (x.view(2, -1) == shy.Flatten()(x)).all()
 
 shy.err_hook()
 a = 1/0
