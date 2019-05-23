@@ -225,3 +225,16 @@ def loading(func, args=(), kwargs={}, verbose=True, desc=None):
         else:
             print(' completed!')
     return result
+
+def save_pkl(obj, path):
+    import pickle
+    
+    with open(path, 'wb') as f:
+        pickle.dump(obj, f)
+
+def load_pkl(path):
+    import pickle
+
+    with open(path, 'rb') as f:
+        res = pickle.load(f)
+    return res

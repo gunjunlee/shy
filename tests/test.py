@@ -7,10 +7,12 @@ import os.path as osp
 CUR_DIR = osp.dirname(__file__)
 
 import imp
-imp.load_source('shy', osp.join(osp.dirname(CUR_DIR), 'shy/__init__.py'))
+
+imp.load_source('shy', osp.join(CUR_DIR, '../shy/__init__.py'))
 import shy
 
 cache_path = osp.join(CUR_DIR, 'izone_chaewon.jpg')
+pkl_path = osp.join(CUR_DIR, 'izone_chaewon.pkl')
 
 # download % show_img(s)
 try:
@@ -46,9 +48,15 @@ try:
                                     [0.3, 0.3, 0.4, 0.4]], outline='red'))
     shy.show_image(img)
 
+    shy.save_pkl(img, pkl_path)
+    img = shy.load_pkl(pkl_path)
+    shy.show_image(img)
+
 finally:
     if osp.isfile(cache_path):
         os.remove(cache_path)
+    if osp.isfile(pkl_path):
+        os.remove(pkl_path)
 
 
 def poo(num):
