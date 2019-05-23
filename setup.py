@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
   name='shy',
-  version='0.2.3dev2019.05.23.0',
+  version='0.2.3.dev2019052300',
   description='very shy library',
   author='kevin970401',
   author_email='kevin970401@gmail.com',
