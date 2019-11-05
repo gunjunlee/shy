@@ -1,3 +1,10 @@
+try:
+    import PIL
+    if "post" not in PIL.Image.PILLOW_VERSION:
+        print("[shy warning] You have /pillow/ instead of /pillow-simd/.")
+except:
+    pass
+
 def err_hook():
     import sys
     import pdb
@@ -78,6 +85,62 @@ def draw_bbox(img, bbox, **kwarg):
 
     draw = ImageDraw.Draw(img)
     draw.rectangle([bbox[0]*w, bbox[1]*h, bbox[2]*w, bbox[3]*h], **kwarg)
+    del draw
+
+    return img
+
+
+def draw_point(img, point, radius=1, **kwarg):
+    '''draw bbox on copied img
+
+    Parameters
+    ----------
+    img : PIL.Image
+        image which you want to draw box on
+    point: iterable
+        (x, y)
+    Returns
+    -------
+    c_img: PIL.Image
+        drawn copied image
+    '''
+
+    from PIL import ImageDraw
+
+    img = img.copy()
+    w, h = img.size
+
+    draw = ImageDraw.Draw(img)
+    x, y = point
+    draw.ellipse([x-radius, y-radius, x+radius, y+radius], **kwarg)
+    del draw
+
+    return img
+
+
+def draw_points(img, points, radius=1, **kwarg):
+    '''draw bbox on copied img
+
+    Parameters
+    ----------
+    img : PIL.Image
+        image which you want to draw box on
+    points: iterable
+        [(x1, y1), (x2, y2), ...]
+    Returns
+    -------
+    c_img: PIL.Image
+        drawn copied image
+    '''
+
+    from PIL import ImageDraw
+
+    img = img.copy()
+    w, h = img.size
+
+    draw = ImageDraw.Draw(img)
+    for x, y in points:
+        draw.ellipse([x-radius, y-radius, x+radius, y+radius], **kwarg)
     del draw
 
     return img
@@ -226,11 +289,13 @@ def loading(func, args=(), kwargs={}, verbose=True, desc=None):
             print(' completed!')
     return result
 
+
 def save_pkl(obj, path):
     import pickle
-    
+
     with open(path, 'wb') as f:
         pickle.dump(obj, f)
+
 
 def load_pkl(path):
     import pickle
