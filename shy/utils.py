@@ -1,9 +1,16 @@
 try:
-    import PIL
-    if "post" not in PIL.Image.PILLOW_VERSION:
+    from PIL import Image
+    if "post" not in Image.PILLOW_VERSION:
         print("[shy warning] You have /pillow/ instead of /pillow-simd/.")
 except:
     pass
+
+def run_from_ipython():
+    try:
+        __IPYTHON__
+        return True
+    except NameError:
+        return False
 
 def err_hook():
     import sys
@@ -12,13 +19,21 @@ def err_hook():
 
     backtrace.hook(align=True)
 
-    old_hook = sys.excepthook
+    if run_from_ipython():
+        import IPython
+        old_showtraceback = IPython.core.interactiveshell.InteractiveShell.showtraceback
+        def new_showtraceback(exc_tuple=None, filename=None, tb_offset=None, exception_only=False, running_compiled_code=False):
+            import ipdb
+            ipdb.post_mortem(tb_offset)
+        IPython.core.interactiveshell.InteractiveShell.showtraceback = new_showtraceback
+    else:
+        old_hook = sys.excepthook
 
-    def new_hook(type_, value, traceback):
-        old_hook(type_, value, traceback)
-        if type_ != KeyboardInterrupt:
-            pdb.post_mortem(traceback)
-    sys.excepthook = new_hook
+        def new_hook(type_, value, traceback):
+            old_hook(type_, value, traceback)
+            if type_ != KeyboardInterrupt:
+                pdb.post_mortem(traceback)
+        sys.excepthook = new_hook
 
 
 def show_img(img):
