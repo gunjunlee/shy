@@ -24,8 +24,13 @@ def err_hook():
         old_showtraceback = IPython.core.interactiveshell.InteractiveShell.showtraceback
         def new_showtraceback(exc_tuple=None, filename=None, tb_offset=None, exception_only=False, running_compiled_code=False):
             old_showtraceback(exc_tuple, filename, tb_offset, exception_only, running_compiled_code)
-            import ipdb
+            try:
+                import ipdb
+            except:
+                print('[shy warning]: You do not have /ipdb/. Please install /ipdb/')
+                return
             ipdb.post_mortem(tb_offset)
+
         IPython.core.interactiveshell.InteractiveShell.showtraceback = new_showtraceback
     else:
         old_hook = sys.excepthook
