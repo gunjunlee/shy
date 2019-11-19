@@ -23,6 +23,7 @@ def err_hook():
         import IPython
         old_showtraceback = IPython.core.interactiveshell.InteractiveShell.showtraceback
         def new_showtraceback(exc_tuple=None, filename=None, tb_offset=None, exception_only=False, running_compiled_code=False):
+            old_showtraceback(exc_tuple, filename, tb_offset, exception_only, running_compiled_code)
             import ipdb
             ipdb.post_mortem(tb_offset)
         IPython.core.interactiveshell.InteractiveShell.showtraceback = new_showtraceback
