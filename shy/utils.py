@@ -282,12 +282,12 @@ def download_url(url, path, md5=None):
                 raise
 
     if os.path.isfile(fpath) and check_integrity(fpath, md5):
-        print('File already exists: '+fpath)
+        print('File already exists: ' + fpath)
     elif os.path.isfile(fpath):
-        print('File already exists... but not match md5: '+fpath)
+        print('File already exists... but not match md5: ' + fpath)
     else:
         try:
-            print('Downloading '+url+' to '+fpath)
+            print('Downloading ' + url + ' to ' + fpath)
             with tqdm(total=None) as pbar:
                 urllib.request.urlretrieve(url, fpath,
                                            reporthook=gen_bar_updater(pbar))
@@ -295,13 +295,13 @@ def download_url(url, path, md5=None):
             if url[:5] == 'https':
                 url = url.replace('https:', 'http:')
                 print('Failed download. Trying https -> http instead')
-                print('Downloading '+url+' to '+fpath)
+                print('Downloading ' + url + ' to ' + fpath)
             with tqdm(total=None) as pbar:
                 urllib.request.urlretrieve(url, fpath,
                                            reporthook=gen_bar_updater(pbar))
-        print('Download completed: '+url+' to '+fpath)
+        print('Download completed: ' + url + ' to ' + fpath)
         if not check_integrity(fpath, md5):
-            print('not match md5: '+fpath)
+            print('not match md5: ' + fpath)
 
 
 def loading(func, args=(), kwargs={}, verbose=True, desc=None):
@@ -316,9 +316,9 @@ def loading(func, args=(), kwargs={}, verbose=True, desc=None):
             sys.stdout.write(frame[idx])
             sys.stdout.flush()
             time.sleep(0.5)
-            sys.stdout.write('\b'*len(frame[idx]))
-            sys.stdout.write(' '*len(frame[idx]))
-            sys.stdout.write('\b'*len(frame[idx]))
+            sys.stdout.write('\b' * len(frame[idx]))
+            sys.stdout.write(' ' * len(frame[idx]))
+            sys.stdout.write('\b' * len(frame[idx]))
             idx += 1
             if idx == len(frame):
                 idx = 0
