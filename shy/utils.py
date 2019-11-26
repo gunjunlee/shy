@@ -64,7 +64,7 @@ def show_img(img):
     plt.show()
 
 
-def show_imgs(img, nrows=None, ncols=None, *args):
+def show_imgs(img, *args, nrows=None, ncols=None):
     if len(args) == 0:
         return show_img(img)
 
