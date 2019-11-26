@@ -57,14 +57,15 @@ def err_hook():
         sys.excepthook = new_hook
 
 
-def show_img(img):
+def show_img(img, show=True):
     import matplotlib.pyplot as plt
 
     plt.imshow(img)
-    plt.show()
+    if show:
+        plt.show()
 
 
-def show_imgs(img, *args, nrows=None, ncols=None):
+def show_imgs(img, *args, nrows=None, ncols=None, show=True):
     if len(args) == 0:
         return show_img(img)
 
@@ -101,7 +102,9 @@ def show_imgs(img, *args, nrows=None, ncols=None):
                 axs[0, 0].imshow(img)
                 continue
             axs[r, c].imshow(args[r * ncols + c - 1])
-    plt.show()
+
+    if show:
+        plt.show()
 
 
 def draw_bbox(img, bbox, normalized=True, **kwarg):
