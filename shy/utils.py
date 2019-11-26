@@ -64,7 +64,7 @@ def show_img(img):
     plt.show()
 
 
-def show_imgs(img, *args):
+def show_imgs(img, nrows=None, ncols=None, *args):
     if len(args) == 0:
         return show_img(img)
 
@@ -72,28 +72,35 @@ def show_imgs(img, *args):
     import math
 
     total = 1 + len(args)
-    sqrt = int(math.sqrt(total))
-    res = math.sqrt(total) - sqrt
-
-    if res == 0:
-        row, col = sqrt, sqrt
-    elif res <= -sqrt + math.sqrt(sqrt**2 + sqrt):
-        row, col = sqrt, sqrt + 1
+    if nrows is not None and ncols is not None:
+        assert nrows * ncols >= total, f'nrows: {nrows}, ncols: {ncols}, # of images: {total}. nrows * ncols (={ncols*nrows}) is lower than number of images!'
+    elif nrows is not None:
+        ncols = int(math.ceil(total / nrows))
+    elif ncols is not None:
+        nrows = int(math.ceil(total / ncols))
     else:
-        row, col = sqrt + 1, sqrt + 1
+        sqrt = int(math.sqrt(total))
+        res = math.sqrt(total) - sqrt
 
-    fig, axs = plt.subplots(nrows=row, ncols=col)
-    axs = axs.reshape(row, col)
+        if res == 0:
+            nrows, ncols = sqrt, sqrt
+        elif res <= -sqrt + math.sqrt(sqrt**2 + sqrt):
+            nrows, ncols = sqrt, sqrt + 1
+        else:
+            nrows, ncols = sqrt + 1, sqrt + 1
 
-    for r in range(row):
-        for c in range(col):
-            if r * col + c > total - 1:
+    fig, axs = plt.subplots(nrows=nrows, ncols=ncols)
+    axs = axs.reshape(nrows, ncols)
+
+    for r in range(nrows):
+        for c in range(ncols):
+            if r * ncols + c > total - 1:
                 axs[r, c].axis('off')
                 continue
             if r == 0 and c == 0:
                 axs[0, 0].imshow(img)
                 continue
-            axs[r, c].imshow(args[r * col + c - 1])
+            axs[r, c].imshow(args[r * ncols + c - 1])
     plt.show()
 
 
