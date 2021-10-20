@@ -42,10 +42,6 @@ try:
 
     # draw bbox
     img = img.resize((100, 100))
-    shy.show_image(shy.draw_bbox(img, [0.1, 0.4, 0.8, 0.5], outline='red'))
-    shy.show_image(shy.draw_bboxes(img,
-                                   [[0.1, 0.1, 0.2, 0.2],
-                                    [0.3, 0.3, 0.4, 0.4]], outline='red'))
     shy.show_image(img)
 
     shy.save_pkl(img, pkl_path)
@@ -73,11 +69,6 @@ def poo(num):
     return
 
 shy.loading(poo, args=(int(2e+8),), desc='calc{bar} is done!')
-
-import torch
-x = torch.ones((2, 2, 2))
-assert (x == shy.Identity()(x)).all()
-assert (x.view(2, -1) == shy.Flatten()(x)).all()
 
 shy.err_hook()
 a = 1/0

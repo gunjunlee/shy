@@ -115,7 +115,7 @@ def check_integrity(fpath, md5=None):
 
 
 def download_url(url, path, md5=None):
-    import urllib
+    import urllib.request
     import os
     import errno
     from tqdm import tqdm
@@ -164,29 +164,27 @@ def download_url(url, path, md5=None):
             print('not match md5: ' + fpath)
 
 
-def loading(func, args=(), kwargs={}, verbose=True, desc=None):
+def _animation(evt):
     import time
     import sys
-    import multiprocessing as mp
+    frame = ['.', '..', '...', '....']
+    idx = 0
+    while not evt.is_set():
+        sys.stdout.write(frame[idx])
+        sys.stdout.flush()
+        time.sleep(0.5)
+        sys.stdout.write('\b' * len(frame[idx]))
+        sys.stdout.write(' ' * len(frame[idx]))
+        sys.stdout.write('\b' * len(frame[idx]))
+        idx += 1
+        if idx == len(frame):
+            idx = 0
 
-    def animation(chk):
-        frame = ['.', '..', '...', '....']
-        idx = 0
-        while True:
-            sys.stdout.write(frame[idx])
-            sys.stdout.flush()
-            time.sleep(0.5)
-            sys.stdout.write('\b' * len(frame[idx]))
-            sys.stdout.write(' ' * len(frame[idx]))
-            sys.stdout.write('\b' * len(frame[idx]))
-            idx += 1
-            if idx == len(frame):
-                idx = 0
-            if chk.value == 0:
-                break
+def loading(func, args=(), kwargs={}, verbose=True, desc=None):
+    import threading
 
-    chk = mp.Value('i', 1)
-    loading_ani_p = mp.Process(target=animation, args=(chk,))
+    evt = threading.Event()
+    loading_ani_p = threading.Thread(target=_animation, args=(evt,))
 
     if desc is not None:
         pre_desc, post_desc = desc.split('{bar}')
@@ -198,7 +196,7 @@ def loading(func, args=(), kwargs={}, verbose=True, desc=None):
             print('loading', end='')
     loading_ani_p.start()
     result = func(*args, **kwargs)
-    chk.value = 0
+    evt.set()
     loading_ani_p.join()
     if verbose:
         if desc is not None:
