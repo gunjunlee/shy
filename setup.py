@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name='shy',
-    version='0.2.4.dev2019112602',
+    version='0.2.4.dev2021102000',
     description='very shy library',
-    author='kevin970401',
-    author_email='kevin970401@gmail.com',
-    url='http://github.com/kevin970401/shy',
+    author='gunjunlee',
+    author_email='gunjunlee97@gmail.com',
+    url='http://github.com/gunjunlee/shy',
     install_requires=['backtrace', 'tqdm'],
     packages=find_packages(exclude=['docs', 'tests*']),
     keywords=['shy'],

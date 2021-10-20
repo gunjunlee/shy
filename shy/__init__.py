@@ -4,13 +4,5 @@ from .utils import (
     draw_points, draw_point
 )
 
-try:
-    import torch
-    import torchvision
-
-    from .th import safe_save_net, safe_load_net, Identity, Flatten, norm2bgr, bgr2norm, imagenet_stat
-except:
-    pass
-
 show_image = show_img
 show_images = show_imgs
