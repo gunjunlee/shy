@@ -15,6 +15,7 @@ def run_from_ipython():
 
 def err_hook():
     import sys
+    import bdb
     import pdb
     import backtrace
 
@@ -39,7 +40,7 @@ def err_hook():
 
         def new_hook(type_, value, traceback):
             old_hook(type_, value, traceback)
-            if type_ != KeyboardInterrupt:
+            if type_ != KeyboardInterrupt and type_ != bdb.BdbQuit:
                 pdb.post_mortem(traceback)
         sys.excepthook = new_hook
 
