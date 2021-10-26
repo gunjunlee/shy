@@ -6,10 +6,10 @@ The shiest library in Python
 
 ## git
 ```
-pip install git+https://github.com/kevin970401/shy
+pip install git+https://github.com/gunjunlee/shy
 ```
 
-## pip
+## pip (not recommended)
 ```
 pip install shy
 ```
